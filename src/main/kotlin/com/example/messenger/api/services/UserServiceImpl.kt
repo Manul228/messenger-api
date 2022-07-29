@@ -28,7 +28,7 @@ class UserServiceImpl(val repository: UserRepository): UserService {
 
     @Throws(UserStatusEmptyException::class)
     fun updateUserStatus(currentUser: User, updateDetails: User): User {
-        if (!updateDetails.status.isEmpty()) {
+        if (updateDetails.status.isNotEmpty()) {
             currentUser.status = updateDetails.status
             repository.save(currentUser)
             return currentUser
@@ -41,7 +41,7 @@ class UserServiceImpl(val repository: UserRepository): UserService {
     }
 
     @Throws(InvalidUserIdException::class)
-    override fun retreiveUserData(id: Long): User? {
+    override fun retrieveUserData(id: Long): User? {
         val userOptional = repository.findById(id)
         if (userOptional.isPresent) {
             val user = userOptional.get()

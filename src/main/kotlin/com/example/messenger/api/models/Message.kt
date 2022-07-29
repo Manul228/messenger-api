@@ -7,13 +7,6 @@ import javax.persistence.*
 
 @Entity
 class Message (
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long = 0,
-
-    @DateTimeFormat
-    val createdAt: Date = Date.from(Instant.now()),
-
     @ManyToOne(optional = false)
     @JoinColumn(name= "sender_id", referencedColumnName = "id")
     var sender: User? = null,
@@ -27,4 +20,11 @@ class Message (
     @ManyToOne(optional = false)
     @JoinColumn(name = "conversation_id", referencedColumnName = "id")
     var conversation: Conversation? = null,
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id: Long = 0,
+
+    @DateTimeFormat
+    val createdAt: Date = Date.from(Instant.now()),
 )
