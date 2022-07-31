@@ -13,4 +13,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
 class MessageControllerAdvice {
+
+    @ExceptionHandler(MessageEmptyException::class)
+    fun messageEmpty(messageEmptyException: MessageEmptyException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.MESSAGE_EMPTY.value, messageEmptyException.message)
+        return ResponseEntity.unprocessableEntity().body(res)
+    }
+
+    @ExceptionHandler(MessageRecipientInvalidException::class)
+    fun messageRecipientInvalid(messageEmptyException: MessageEmptyException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.MESSAGE_RECIPIENT_INVALID.value, messageEmptyException.message)
+        return ResponseEntity.unprocessableEntity().body(res)
+    }
 }
