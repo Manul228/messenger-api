@@ -1,5 +1,7 @@
 package com.example.messenger.api.filters
 
+import com.example.messenger.api.security.AccountCredentials
+import com.example.messenger.api.services.TokenAuthenticationService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -22,7 +24,7 @@ class JWTLoginFilter(url: String, authManager: AuthenticationManager) :
 
     @Throws(AuthenticationException::class, IOException::class, ServletException::class)
     override fun attemptAuthentication(req: HttpServletRequest, res: HttpServletResponse): Authentication {
-        val credentials = ObjectMapper().readValue(req.inputStream, AccountCredentials::class)
+        val credentials = ObjectMapper().readValue(req.inputStream, AccountCredentials::class.java)
 
         return authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(

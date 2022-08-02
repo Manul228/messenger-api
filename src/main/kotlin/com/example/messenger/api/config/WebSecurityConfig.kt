@@ -1,5 +1,8 @@
 package com.example.messenger.api.config
 
+import com.example.messenger.api.filters.JWTAuthenticationFilter
+import com.example.messenger.api.filters.JWTLoginFilter
+import com.example.messenger.api.services.AppUserDetailsService
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -23,9 +26,11 @@ class WebSecurityConfig(val userDetailsService: AppUserDetailsService): WebSecur
             .permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilterBefore(JWTLoginFilter("/login", authenticationManager()),
+            .addFilterBefore(
+                JWTLoginFilter("/login", authenticationManager()),
                 UsernamePasswordAuthenticationFilter::class.java)
-            .addFilterBefore(JWTAuthenticationFilter(),
+            .addFilterBefore(
+                JWTAuthenticationFilter(),
                 UsernamePasswordAuthenticationFilter::class.java)
     }
 
