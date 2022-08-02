@@ -7,7 +7,7 @@ interface UserService {
 
     fun listUsers(currentUser: User): List<User>
 
-    fun retrieveUserData(username: String): User?
+//    fun retrieveUserData(username: String): User?
 
     fun retrieveUserData(id: Long): User?
 

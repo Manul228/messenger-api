@@ -13,24 +13,21 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
-
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig(val userDetailsService: AppUserDetailsService): WebSecurityConfigurerAdapter() {
+class WebSecurityConfig(val userDetailsService: AppUserDetailsService) : WebSecurityConfigurerAdapter() {
+
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.csrf().disable().authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/users/registrations")
-            .permitAll()
-            .antMatchers(HttpMethod.POST, "/login")
-            .permitAll()
+            .antMatchers("/**").permitAll()
+//            .antMatchers(HttpMethod.POST, "/users/registrations").permitAll()
+//            .antMatchers(HttpMethod.POST, "/login").permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilterBefore(
-                JWTLoginFilter("/login", authenticationManager()),
+            .addFilterBefore(JWTLoginFilter("/login", authenticationManager()),
                 UsernamePasswordAuthenticationFilter::class.java)
-            .addFilterBefore(
-                JWTAuthenticationFilter(),
+            .addFilterBefore(JWTAuthenticationFilter(),
                 UsernamePasswordAuthenticationFilter::class.java)
     }
 
