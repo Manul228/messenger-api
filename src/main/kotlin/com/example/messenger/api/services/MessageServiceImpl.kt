@@ -22,8 +22,8 @@ class MessageServiceImpl(val repository: MessageRepository,
                          val userRepository: UserRepository): MessageService {
 
     @Throws(MessageEmptyException::class, MessageRecipientInvalidException::class)
-    override fun sendMessage(sender: User, recipientId: Long, messageText: String): Message? {
-        var optional = userRepository.findById(recipientId)
+    override fun sendMessage(sender: User, recipientId: Long, messageText: String): Message {
+        val optional = userRepository.findById(recipientId)
 
         if (optional.isPresent) {
             val recipient = optional.get()
@@ -42,8 +42,7 @@ class MessageServiceImpl(val repository: MessageRepository,
             } else {
                 throw MessageRecipientInvalidException("The recipient id '$recipient' is invalid.")
             }
-            throw MessageEmptyException()
         }
-        return null
+        throw MessageEmptyException()
     }
 }
